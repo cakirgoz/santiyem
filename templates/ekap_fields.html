@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><div class="grid grid-cols-1 gap-6">
+    <!-- Sözleşme Tarihi ve Geçici Kabul Tarihi -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Sözleşme Tarihi
+            </label>
+            <input
+                type="date"
+                name="contract_date"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Geçici Kabul/İskan Tarihi
+            </label>
+            <input
+                type="date"
+                name="acceptance_date"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+    </div>
+
+    <!-- İlk Sözleşme Bedeli ve Belge Tutarı -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                İlk Sözleşme Bedeli
+            </label>
+            <input
+                type="number"
+                name="initial_amount"
+                min="0"
+                step="0.01"
+                value="0.0"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Belge Tutarı
+            </label>
+            <input
+                type="number"
+                name="document_amount"
+                min="0"
+                step="0.01"
+                value="0.0"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+    </div>
+
+    <!-- Checkbox'lar -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="flex items-center">
+            <input
+                type="checkbox"
+                name="take_85_percent"
+                class="form-checkbox"
+            >
+            <label class="ml-2 text-gray-700 text-sm">
+                Belge tutarının %85'ini al.
+            </label>
+        </div>
+        <div class="flex items-center">
+            <input
+                type="checkbox"
+                name="green_building"
+                class="form-checkbox"
+            >
+            <label class="ml-2 text-gray-700 text-sm">
+                Yeşil Bina Sertifikası
+            </label>
+        </div>
+        <div class="flex items-center">
+            <input
+                type="checkbox"
+                name="joint_venture"
+                class="form-checkbox"
+                id="joint-venture-checkbox"
+            >
+            <label class="ml-2 text-gray-700 text-sm">
+                Ortak Girişim
+            </label>
+        </div>
+        <div>
+            <input
+                type="number"
+                name="venture_ratio"
+                min="0"
+                max="100"
+                step="0.1"
+                placeholder="Oran (%)"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="venture-ratio-input"
+                style="display: none;"
+            >
+        </div>
+    </div>
+
+    <!-- Esas Unsur Yüzdesi ve Adına EKAP -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Esas Unsur Yüzdesi (%)
+            </label>
+            <input
+                type="number"
+                name="essential_element_percentage"
+                min="0"
+                max="100"
+                step="0.1"
+                value="100.0"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+        <div class="flex items-center mt-6">
+            <input
+                type="checkbox"
+                name="is_building_owner"
+                class="form-checkbox"
+            >
+            <label class="ml-2 text-gray-700 text-sm">
+                Adına EKAP iş deneyim belgesi düzenlenen aynı zamanda kısmen veya tamamen yapı sahibi.
+            </label>
+        </div>
+    </div>
+
+    <!-- Sanayi Yapısı mı? -->
+    <div class="mb-4">
+        <label class="flex items-center">
+            <input
+                type="checkbox"
+                name="is_industrial"
+                class="form-checkbox"
+                id="is-industrial-checkbox"
+            >
+            <span class="ml-2 text-gray-700">Sanayi Yapısı mı?</span>
+        </label>
+    </div>
+
+    <!-- Sanayi Yapısı Tipi için Alan (başlangıçta gizli) -->
+    <div id="industrial-type-fields-ekap" style="display: none;">
+        <!-- HTMX ile yüklenecek -->
+    </div>
+</div>
+
+<script>
+    // Ortak Girişim Oranı göster/gizle
+    document.getElementById('joint-venture-checkbox').addEventListener('change', function() {
+        const ventureRatioInput = document.getElementById('venture-ratio-input');
+        ventureRatioInput.style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Sanayi Yapısı alanlarını yükle
+    document.getElementById('is-industrial-checkbox').addEventListener('change', function() {
+        const container = document.getElementById('industrial-type-fields-ekap');
+        if (this.checked) {
+            container.style.display = 'block';
+            // HTMX ile alanları yükle
+            htmx.ajax('GET', '/industrial-type-fields-ekap', {
+                target: '#industrial-type-fields-ekap',
+                swap: 'innerHTML'
+            });
+        } else {
+            container.style.display = 'none';
+            container.innerHTML = '';
+        }
+    });
+</script>

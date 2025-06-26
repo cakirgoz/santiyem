@@ -1,0 +1,115 @@
+{% if is_industrial == "Evet" %}
+<div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+        Sanayi Yapısı Tipi
+    </label>
+    <div class="flex space-x-4">
+        <label class="inline-flex items-center">
+            <input 
+                type="radio" 
+                name="industrial_type" 
+                value="İş deneyimine tabi sanayi yapısı" 
+                class="form-radio"
+                checked
+            >
+            <span class="ml-2">İş deneyimine tabi sanayi yapısı</span>
+        </label>
+        <label class="inline-flex items-center">
+            <input 
+                type="radio" 
+                name="industrial_type" 
+                value="İş deneyimine tabi olmayan sanayi yapısı" 
+                class="form-radio"
+            >
+            <span class="ml-2">İş deneyimine tabi olmayan sanayi yapısı</span>
+        </label>
+    </div>
+    <p class="text-xs text-gray-500 mt-1">Sanayi yapısının iş deneyimine tabi olup olmadığını seçin</p>
+</div>
+
+<div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+        Yıl Kategorisi
+    </label>
+    <div class="flex space-x-4">
+        <label class="inline-flex items-center">
+            <input 
+                type="radio" 
+                name="year_category" 
+                value="2019 Öncesi" 
+                class="form-radio"
+                {% if year_category == "2019 Öncesi" %}checked{% endif %}
+                hx-get="/industrial-type-fields" 
+                hx-target="#industrial-type-fields"
+                hx-trigger="change"
+                hx-include="[name='is_industrial']"
+            >
+            <span class="ml-2">2019 Öncesi</span>
+        </label>
+        <label class="inline-flex items-center">
+            <input 
+                type="radio" 
+                name="year_category" 
+                value="2019 Sonrası" 
+                class="form-radio"
+                {% if year_category == "2019 Sonrası" %}checked{% endif %}
+                hx-get="/industrial-type-fields" 
+                hx-target="#industrial-type-fields"
+                hx-trigger="change"
+                hx-include="[name='is_industrial']"
+            >
+            <span class="ml-2">2019 Sonrası</span>
+        </label>
+    </div>
+</div>
+
+<!-- Yıl Kategorisine göre ek alanlar -->
+{% if year_category == "2019 Öncesi" %}
+<div class="mb-4">
+    <label class="flex items-center">
+        <input 
+            type="checkbox" 
+            name="percentage_selected" 
+            class="form-checkbox"
+            checked
+        >
+        <span class="ml-2">Belge Tutarı %20'si</span>
+    </label>
+</div>
+{% elif year_category == "2019 Sonrası" %}
+<div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+        Ruhsat Onay Tarihi
+    </label>
+    <input 
+        type="date" 
+        name="approval_date" 
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    >
+</div>
+<div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+        Ruhsat Onay Tarihindeki Yetki Belge Grubu
+    </label>
+    <select 
+        name="authority_group" 
+        class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    >
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="B1">B1</option>
+        <option value="C">C</option>
+        <option value="C1">C1</option>
+        <option value="D">D</option>
+        <option value="D1">D1</option>
+        <option value="E">E</option>
+        <option value="E1">E1</option>
+        <option value="F">F</option>
+        <option value="F1">F1</option>
+        <option value="G">G</option>
+        <option value="G1">G1</option>
+        <option value="H">H</option>
+    </select>
+</div>
+{% endif %}
+{% endif %}

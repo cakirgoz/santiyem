@@ -1,0 +1,38 @@
+<div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Mezuniyet Tarihi
+            </label>
+            <input
+                type="date"
+                name="graduation_date"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+            >
+        </div>
+        <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Mezun Olunan Bölüm
+            </label>
+            <select
+                name="graduation_department"
+                class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+            >
+                <option value="İnşaat Mühendisliği/Mimarlık">İnşaat Mühendisliği/Mimarlık</option>
+                <option value="Diğer Bölümler">Diğer Bölümler</option>
+            </select>
+        </div>
+    </div>
+    <div class="mb-4">
+        <label class="flex items-center">
+            <input
+                type="checkbox"
+                name="has_experience_certificate"
+                class="form-checkbox"
+            >
+            <span class="ml-2 text-gray-700">İş Deneyim Belgesi mevcut.</span>
+        </label>
+    </div>
+</div>

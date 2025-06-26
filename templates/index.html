@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <form id="main-form"
+          hx-post="/submit"
+          hx-target="#result-area"
+          hx-swap="innerHTML">
+        <!-- Deneyim Türü Seçimi -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                İş Deneyimi Türünü Seçin
+            </label>
+            <select
+                name="experience_type"
+                class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                hx-get="/graduation-fields"
+                hx-target="#dynamic-fields"
+                hx-trigger="change"
+            >
+                <option value="EKAP İş Deneyim Belgesi Ekle"
+                    {% if experience_type == "EKAP İş Deneyim Belgesi Ekle" %}selected{% endif %}>
+                    EKAP İş Deneyim Belgesi Ekle
+                </option>
+                <option value="Mezuniyet Belgesi Ekle"
+                    {% if experience_type == "Mezuniyet Belgesi Ekle" %}selected{% endif %}>
+                    Mezuniyet Belgesi Ekle
+                </option>
+                <option value="Yapı Kullanma İzin Belgesi Ekle"
+                    {% if experience_type == "Yapı Kullanma İzin Belgesi Ekle" %}selected{% endif %}>
+                    Yapı Kullanma İzin Belgesi Ekle
+                </option>
+            </select>
+            <div class="htmx-indicator">Yükleniyor...</div>
+        </div>
+
+        <!-- Başvuru Tarihi -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Başvuru Tarihi
+            </label>
+            <input
+                type="date"
+                name="application_date"
+                value="{{ today }}"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+            >
+        </div>
+
+        <!-- Dinamik Alanlar -->
+        <div id="dynamic-fields">
+            {% if experience_type == "Mezuniyet Belgesi Ekle" %}
+                {% include 'graduation_fields.html' %}
+            {% elif experience_type == "Yapı Kullanma İzin Belgesi Ekle" %}
+                {% include 'building_permit_fields.html' %}
+            {% elif experience_type == "EKAP İş Deneyim Belgesi Ekle" %}
+                {% include 'ekap_fields.html' %}  <!-- Yeni ekledik -->
+            {% endif %}
+        </div>
+
+        <button
+            type="submit"
+            class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+            Gönder
+        </button>
+    </form>
+
+    <!-- Sonuçların gösterileceği alan -->
+    <div id="result-area" class="mt-8"></div>
+</div>
+{% endblock %}

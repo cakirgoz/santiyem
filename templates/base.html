@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İş Deneyimi Girişi</title>
+    <!-- CDN ile HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.min.js"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .htmx-indicator {
+            display: none;
+        }
+        .htmx-request .htmx-indicator {
+            display: inline;
+        }
+        .htmx-request.htmx-indicator {
+            display: inline;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h1 class="text-2xl font-bold mb-6">İş Deneyimi Girişi</h1>
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        // Hata ayıklama için event listener'lar
+        document.body.addEventListener('htmx:beforeRequest', function(evt) {
+            console.log('HTMX isteği gönderiliyor:', evt.detail.path);
+        });
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            console.log('HTMX yanıtı alındı:', evt.detail.xhr.status);
+        });
+    </script>
+</body>
+</html>

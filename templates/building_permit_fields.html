@@ -1,0 +1,216 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Sol Sütun -->
+    <div>
+        <!-- Sözleşme Tarihi -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Sözleşme Tarihi
+            </label>
+            <input
+                type="date"
+                name="contract_date"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+
+        <!-- Sözleşme Tarihindeki Yapı Sınıfı -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Sözleşme Tarihindeki Yapı Sınıfı
+            </label>
+            <select
+                name="building_class"
+                class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+                <option value="I-A">I-A</option>
+                <option value="I-B">I-B</option>
+                <option value="II-A">II-A</option>
+                <option value="II-B">II-B</option>
+                <option value="II-C">II-C</option>
+                <option value="III-A">III-A</option>
+                <option value="III-B">III-B</option>
+                <option value="III-C">III-C</option>
+                <option value="IV-A">IV-A</option>
+                <option value="IV-B">IV-B</option>
+                <option value="IV-C">IV-C</option>
+                <option value="V-A">V-A</option>
+                <option value="V-B">V-B</option>
+                <option value="V-C">V-C</option>
+                <option value="V-D">V-D</option>
+            </select>
+        </div>
+
+        <!-- Yapı Alanı -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Yapı Alanı (m²)
+            </label>
+            <input
+                type="number"
+                name="building_area"
+                min="0"
+                step="0.01"
+                value="0.0"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+
+        <!-- Yeşil Bina Sertifikası -->
+        <div class="mb-4">
+            <label class="flex items-center">
+                <input
+                    type="checkbox"
+                    name="green_building"
+                    class="form-checkbox"
+                >
+                <span class="ml-2 text-gray-700">Yeşil Bina Sertifikası Düzenlenmiş Yapı mı?</span>
+            </label>
+        </div>
+
+        <!-- Sanayi Yapısı mı? -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Sanayi Yapısı mı?
+            </label>
+            <div class="flex space-x-4">
+                <label class="inline-flex items-center">
+                    <input
+                        type="radio"
+                        name="is_industrial"
+                        value="Hayır"
+                        class="form-radio"
+                        checked
+                        hx-get="/industrial-type-fields"
+                        hx-target="#industrial-type-fields"
+                        hx-trigger="change"
+                        hx-include="[name='year_category']"
+                    >
+                    <span class="ml-2">Hayır</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input
+                        type="radio"
+                        name="is_industrial"
+                        value="Evet"
+                        class="form-radio"
+                        hx-get="/industrial-type-fields"
+                        hx-target="#industrial-type-fields"
+                        hx-trigger="change"
+                        hx-include="[name='year_category']"
+                    >
+                    <span class="ml-2">Evet</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Sanayi Yapısı Tipi için Alan -->
+        <div id="industrial-type-fields">
+            <!-- Başlangıçta boş, HTMX ile dolacak -->
+        </div>
+    </div>
+
+    <!-- Sağ Sütun -->
+    <div>
+        <!-- Geçici Kabul/İskan Tarihi -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Geçici Kabul/İskan Tarihi
+            </label>
+            <input
+                type="date"
+                name="acceptance_date"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+
+        <!-- Başvuru Tarihindeki Yapı Sınıfı -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Başvuru Tarihindeki Yapı Sınıfı
+            </label>
+            <select
+                name="building_class_application_date"
+                class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+                <option value="I-A">I-A</option>
+                <option value="I-B">I-B</option>
+                <option value="II-A">II-A</option>
+                <option value="II-B">II-B</option>
+                <option value="II-C">II-C</option>
+                <option value="III-A">III-A</option>
+                <option value="III-B">III-B</option>
+                <option value="IV-A">IV-A</option>
+                <option value="IV-B">IV-B</option>
+                <option value="IV-C">IV-C</option>
+                <option value="V-A">V-A</option>
+                <option value="V-B">V-B</option>
+                <option value="V-C">V-C</option>
+                <option value="V-D">V-D</option>
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Başvuru tarihindeki yapı sınıfının sözleşme tarihindeki yapı sınıfından farklı olması durumunda farklı işaretlenebilir. Aksi halde sözleşme tarihindeki yapı sınıfı ile aynı olması gerekmektedir.</p>
+        </div>
+
+        <!-- Tamamlanma Yüzdesi -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Tamamlanma Yüzdesi (%)
+            </label>
+            <input
+                type="number"
+                name="completion_percentage"
+                min="0"
+                max="100"
+                step="0.1"
+                value="100.0"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+        </div>
+
+        <!-- Tebliğ Seçeneği -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Yapı Yaklaşık Birim Maliyetleri Tarih Geçerlilik Seçeneği:
+            </label>
+            <div class="space-y-2">
+                <label class="block">
+                    <input
+                        type="radio"
+                        name="teblig_sinir_tarih_opsiyonu"
+                        value="yayim"
+                        class="form-radio"
+                        checked
+                    >
+                    <span class="ml-2">Tebliğ yayımlanma tarihi esas alınsın.</span>
+                </label>
+                <label class="block">
+                    <input
+                        type="radio"
+                        name="teblig_sinir_tarih_opsiyonu"
+                        value="gecerlilik"
+                        class="form-radio"
+                    >
+                    <span class="ml-2">Tebliğde belirtilen geçerlilik süresi esas alınsın.</span>
+                </label>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Yapı ruhsatı onay tarihini seçin</p>
+        </div>
+    </div>
+</div>
+
+<!-- Hesapla ve Güncelle Butonları -->
+<div class="grid grid-cols-2 gap-4 mt-6">
+    <div>
+        <button
+            type="button"
+            class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            hx-post="/calculate-building-permit"
+            hx-target="#result-area"
+            hx-include="[name]"
+        >
+            Belge Tutarı Hesapla
+        </button>
+    </div>
+    <div>
+        <!-- Güncelle butonu için boş, ileride kullanılabilir -->
+    </div>
+</div>

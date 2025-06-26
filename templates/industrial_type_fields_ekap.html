@@ -1,0 +1,65 @@
+{% if year_category == "02/12/2019 Sonrası" %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div>
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+            Yapı Ruhsatı Onay Tarihi
+        </label>
+        <input 
+            type="date" 
+            name="approval_date" 
+            min="2019-12-02"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+    </div>
+    <div>
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+            Ruhsat Onay Tarihindeki Belge Grubu
+        </label>
+        <select 
+            name="authority_group" 
+            class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="B1">B1</option>
+            <option value="C">C</option>
+            <option value="C1">C1</option>
+            <option value="D">D</option>
+            <option value="D1">D1</option>
+            <option value="E">E</option>
+            <option value="E1">E1</option>
+            <option value="F">F</option>
+            <option value="F1">F1</option>
+            <option value="G">G</option>
+            <option value="G1">G1</option>
+            <option value="H">H</option>
+        </select>
+    </div>
+</div>
+<div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+        Yapı Yaklaşık Birim Maliyetleri Tarih Geçerlilik Seçeneği:
+    </label>
+    <div class="space-y-2">
+        <label class="block">
+            <input 
+                type="radio" 
+                name="teblig_sinir_tarih_opsiyonu" 
+                value="yayim" 
+                class="form-radio"
+                checked
+            >
+            <span class="ml-2">Tebliğ yayımlanma tarihi esas alınsın.</span>
+        </label>
+        <label class="block">
+            <input 
+                type="radio" 
+                name="teblig_sinir_tarih_opsiyonu" 
+                value="gecerlilik" 
+                class="form-radio"
+            >
+            <span class="ml-2">Tebliğde belirtilen geçerlilik süresi esas alınsın.</span>
+        </label>
+    </div>
+</div>
+{% endif %}
