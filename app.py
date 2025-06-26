@@ -121,5 +121,9 @@ def industrial_type_fields_ekap_details():
         year_category=year_category
     )
 
+@app.route('/ads.txt')
+def ads():
+    return send_from_directory('.', 'ads.txt')
+
 if __name__ == '__main__':
     app.run(debug=True)
