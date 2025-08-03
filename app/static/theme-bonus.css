@@ -1,0 +1,29 @@
+body {
+    background-color: #eaf3fa;
+    color: #1a2636;
+}
+.main-sidebar {
+    background-color: #2b3a4b !important;
+    color: #eaf3fa !important;
+}
+.brand-link, .sidebar .nav-link, .sidebar .nav-header {
+    color: #eaf3fa !important;
+}
+.content-wrapper {
+    background: #f4faff;
+}
+.navbar, .main-header {
+    background: #2b3a4b !important;
+    color: #eaf3fa !important;
+}
+.dropdown-menu {
+    background: #f4faff;
+    color: #1a2636;
+}
+.dropdown-item:hover {
+    background: #d0e3f6;
+}
+footer.main-footer {
+    background: #eaf3fa;
+    color: #4a6a8a;
+} 

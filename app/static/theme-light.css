@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+    color: #222;
+}
+.main-sidebar {
+    background-color: #ffffff !important;
+    color: #222 !important;
+}
+.brand-link, .sidebar .nav-link, .sidebar .nav-header {
+    color: #222 !important;
+}
+.content-wrapper {
+    background: #fff;
+}
+.navbar, .main-header {
+    background: #f8f9fa !important;
+    color: #222 !important;
+}
+.dropdown-menu {
+    background: #fff;
+    color: #222;
+}
+.dropdown-item:hover {
+    background: #e9ecef;
+}
+footer.main-footer {
+    background: #f8f9fa;
+    color: #888;
+} 

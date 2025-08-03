@@ -1,0 +1,33 @@
+body {
+    background-color: #f6f3fa;
+    color: #2a1d3b;
+}
+.main-sidebar {
+    background-color: #3a2b4d !important;
+    color: #f6f3fa !important;
+}
+.brand-link, .sidebar .nav-link, .sidebar .nav-header {
+    color: #f6f3fa !important;
+}
+.content-wrapper {
+    background: #f9f4ff;
+}
+.navbar, .main-header {
+    background: #3a2b4d !important;
+    color: #f6f3fa !important;
+}
+.dropdown-menu, .theme-dropdown-menu {
+    background: #f9f4ff;
+    color: #2a1d3b;
+}
+.dropdown-item {
+    color: #2a1d3b !important;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+    background: #e2d6ff !important;
+    color: #2a1d3b !important;
+}
+footer.main-footer {
+    background: #f6f3fa;
+    color: #6a4aa6;
+} 

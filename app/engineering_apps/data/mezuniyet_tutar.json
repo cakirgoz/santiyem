@@ -1,0 +1,74 @@
+[
+  {
+    "donem": "2025",
+    "baslangic_yayim": "31.01.2025",
+    "bitis_yayim": "31.12.2025",
+    "baslangic_gecerlilik": "1.01.2025",
+    "bitis_gecerlilik": "31.12.2025",
+    "yillik_tutar": 5668750.00
+  },
+  {
+    "donem": "2024",
+    "baslangic_yayim": "20.02.2024",
+    "bitis_yayim": "30.01.2025",
+    "baslangic_gecerlilik": "1.01.2024",
+    "bitis_gecerlilik": "31.12.2024",
+    "yillik_tutar": 3902500.00
+  },
+  {
+    "donem": "2023_2",
+    "baslangic_yayim": "12.08.2023",
+    "bitis_yayim": "19.02.2024",
+    "baslangic_gecerlilik": "1.07.2023",
+    "bitis_gecerlilik": "31.12.2023",
+    "yillik_tutar": 2560000.00
+  },
+  {
+    "donem": "2023_1",
+    "baslangic_yayim": "11.02.2023",
+    "bitis_yayim": "11.08.2023",
+    "baslangic_gecerlilik": "1.01.2023",
+    "bitis_gecerlilik": "30.06.2023",
+    "yillik_tutar": 1735000.00
+  },
+  {
+    "donem": "2022_3",
+    "baslangic_yayim": "13.09.2022",
+    "bitis_yayim": "10.02.2023",
+    "baslangic_gecerlilik": "1.07.2022",
+    "bitis_gecerlilik": "31.12.2022",
+    "yillik_tutar": 1267500.00
+  },
+  {
+    "donem": "2022_2",
+    "baslangic_yayim": "21.06.2022",
+    "bitis_yayim": "12.09.2022",
+    "baslangic_gecerlilik": "2.06.2022",
+    "bitis_gecerlilik": "30.06.2022",
+    "yillik_tutar": 1168500.00
+  },
+  {
+    "donem": "2022_1",
+    "baslangic_yayim": "18.02.2022",
+    "bitis_yayim": "20.06.2022",
+    "baslangic_gecerlilik": "1.01.2022",
+    "bitis_gecerlilik": "1.06.2022",
+    "yillik_tutar": 817500.00
+  },
+  {
+    "donem": "2021",
+    "baslangic_yayim": "24.03.2021",
+    "bitis_yayim": "17.02.2022",
+    "baslangic_gecerlilik": "1.01.2021",
+    "bitis_gecerlilik": "31.12.2021",
+    "yillik_tutar": 493000.00
+  },
+  {
+    "donem": "2020",
+    "baslangic_yayim": "3.10.2020",
+    "bitis_yayim": "23.03.2021",
+    "baslangic_gecerlilik": "3.10.2020",
+    "bitis_gecerlilik": "31.12.2020",
+    "yillik_tutar": 397500.00
+  }
+]

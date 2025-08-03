@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mühendislik Uygulamaları{% endblock %}</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- AdminLTE css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <style>
+        .content-wrapper {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="{{ url_for('main.index') }}" class="brand-link">
+            <span class="brand-text font-weight-light">Müh. Uygulamaları</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.index') }}" class="nav-link" hx-get="{{ url_for('main.index') }}" hx-target="#main-content" hx-push-url="true">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>Ana Sayfa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Müteahhitlik Belgesi Hesaplamaları
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url_for('engineering_apps.category1') }}" class="nav-link" hx-get="{{ url_for('engineering_apps.category1') }}" hx-target="#main-content" hx-push-url="true">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Mezuniyet Belgesi Hesaplama</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('engineering_apps.category2') }}" class="nav-link" hx-get="{{ url_for('engineering_apps.category2') }}" hx-target="#main-content" hx-push-url="true">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ekap İş Deneyim Belgesi Güncelleme</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('engineering_apps.category3') }}" class="nav-link" hx-get="{{ url_for('engineering_apps.category3') }}" hx-target="#main-content" hx-push-url="true">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Yapı Kullanma İzin Belgesi Hesaplama</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('engineering_apps.category4') }}" class="nav-link" hx-get="{{ url_for('engineering_apps.category4') }}" hx-target="#main-content" hx-push-url="true">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Müteahhitlik Belgesi Hesaplama Motoru</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.about') }}" class="nav-link" hx-get="{{ url_for('main.about') }}" hx-target="#main-content" hx-push-url="true">
+                            <i class="nav-icon fas fa-info-circle"></i>
+                            <p>Hakkımda</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.contact') }}" class="nav-link" hx-get="{{ url_for('main.contact') }}" hx-target="#main-content" hx-push-url="true">
+                            <i class="nav-icon fas fa-envelope"></i>
+                            <p>İletişim</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div id="main-content" class="content-wrapper">
+        {% block content %}{% endblock %}
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2024-2025 <a href="#">Proje Adı</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+<!-- HTMX -->
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+</body>
+</html> 

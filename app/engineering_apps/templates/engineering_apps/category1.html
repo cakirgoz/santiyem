@@ -1,0 +1,70 @@
+{% extends "base_content.html" %}
+
+{% block page_title %}Mezuniyet Belgesi Hesaplama{% endblock %}
+
+{% block page_content %}
+<form id="graduation-form">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="application_date">Başvuru Tarihi <span class="text-danger">*</span></label>
+                <input type="date" name="application_date" id="application_date" class="form-control" required value="{{ current_date }}">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="graduation_date">Mezuniyet Tarihi</label>
+                <input type="date" name="graduation_date" id="graduation_date" class="form-control" required>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="graduation_department">Mezun Olunan Bölüm</label>
+                <select name="graduation_department" id="graduation_department" class="form-control" required>
+                    <option value="">Seçiniz</option>
+                    <option value="İnşaat Mühendisliği/Mimarlık">İnşaat Mühendisliği/Mimarlık</option>
+                    <option value="Diğer Bölümler">Diğer Bölümler</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="has_experience_certificate" name="has_experience_certificate">
+        <label class="form-check-label" for="has_experience_certificate">İş Deneyim Belgesi mevcut.</label>
+    </div>
+    <div class="form-group mt-4">
+        <button type="button" class="btn btn-primary" 
+            hx-post="/apps/calculate-graduation" 
+            hx-target="#calculation-result" 
+            hx-include="#graduation-form">
+            Hesapla
+        </button>
+    </div>
+</form>
+<div id="calculation-result" class="mt-4"></div>
+<script>
+function todayISO() {
+    const d = new Date();
+    let day = ('' + d.getDate()).padStart(2, '0');
+    let month = ('' + (d.getMonth() + 1)).padStart(2, '0');
+    let year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const appDate = document.getElementById('application_date');
+    // localStorage'da değer var mı?
+    let stored = localStorage.getItem('mezuniyet_app_date');
+    if (appDate) {
+        if (stored) {
+            appDate.value = stored;
+        } else {
+            appDate.value = todayISO();
+        }
+        // Değişirse localStorage'a kaydet
+        appDate.addEventListener('change', function() {
+            localStorage.setItem('mezuniyet_app_date', this.value);
+        });
+    }
+});
+</script>
+{% endblock %} 

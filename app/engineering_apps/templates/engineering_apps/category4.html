@@ -1,0 +1,1084 @@
+{% extends 'base_content.html' %}
+{% block page_title %}Müteahhitlik Belgesi Hesaplama Motoru{% endblock %}
+{% block page_content %}
+<div class="container mt-4">
+    <ul class="nav nav-tabs" id="demoTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Başvuru Bilgileri</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Mezuniyet Belgesi Ekle</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">EKAP İş Deneyim Belgesi Ekle</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Yapı Kullanma İzin Belgesi Ekle</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab5-tab" data-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="false">İş Deneyimi Değerlendirme</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-3" id="demoTabContent">
+        <!-- Başvuru Bilgileri Sekmesi -->
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <form id="basvuru-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="application_date">Başvuru Tarihi <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="application_date" name="application_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="company_name">Müteahhit Ünvanı</label>
+                    <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Opsiyonel">
+                </div>
+                <div id="form-error" class="text-danger mb-2"></div>
+                <button type="button" class="btn btn-primary" id="save-and-next">Kaydet ve devam et</button>
+            </form>
+        </div>
+        <!-- Mezuniyet Belgesi Ekle Sekmesi -->
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <form id="graduation-form">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="graduation_app_date">Başvuru Tarihi <span class="text-danger">*</span></label>
+                            <input type="date" name="graduation_app_date" id="graduation_app_date" class="form-control" required readonly style="background-color: #e9ecef; color: #6c757d;">
+                            <input type="hidden" name="application_date" id="hidden_application_date">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="graduation_date">Mezuniyet Tarihi</label>
+                            <input type="date" name="graduation_date" id="graduation_date" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="graduation_department">Mezun Olunan Bölüm</label>
+                            <select name="graduation_department" id="graduation_department" class="form-control" required>
+                                <option value="">Seçiniz</option>
+                                <option value="İnşaat Mühendisliği/Mimarlık">İnşaat Mühendisliği/Mimarlık</option>
+                                <option value="Diğer Bölümler">Diğer Bölümler</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="has_experience_certificate" name="has_experience_certificate">
+                    <label class="form-check-label" for="has_experience_certificate">İş Deneyim Belgesi mevcut.</label>
+                </div>
+                <div id="graduation-form-error" class="text-danger mb-2"></div>
+                <div class="form-group mt-4 d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-primary" id="calculate-btn"
+                        hx-post="/apps/calculate-graduation"
+                        hx-target="#calculation-result"
+                        hx-include="#graduation-form">
+                        Hesapla
+                    </button>
+                    <button type="button" class="btn btn-secondary ml-2" id="kaydet-ve-devam-1">Kaydet ve devam et</button>
+                </div>
+            </form>
+            <div id="calculation-result" class="mt-4"></div>
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <form id="ekap-form">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ekap_app_date">Başvuru Tarihi</label>
+                            <input type="date" id="ekap_app_date" name="application_date" class="form-control" readonly style="background-color: #e9ecef; color: #6c757d;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="contract_date">Sözleşme Tarihi</label>
+                            <input type="date" id="contract_date" name="contract_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="acceptance_date">Geçici Kabul/İskan Tarihi</label>
+                            <input type="date" id="acceptance_date" name="acceptance_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="initial_amount">İlk Sözleşme Bedeli</label>
+                            <input type="number" id="initial_amount" name="initial_amount" class="form-control" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="document_amount">Belge Tutarı</label>
+                            <input type="number" id="document_amount" name="document_amount" class="form-control" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="kat_arsa_karsiligi" name="kat_arsa_karsiligi">
+                            <label class="form-check-label" for="kat_arsa_karsiligi">Kat/Arsa Karşılığı veya Bedel İçermeyen Sözleşmeye Dayalı</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="ekap-yapi-sinifi-section" style="display:none;">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ekap_building_class">Sözleşme Tarihindeki Yapı Sınıfı</label>
+                                <select id="ekap_building_class" name="building_class" class="form-control">
+                                    <option value="">Seçiniz</option>
+                                    <option>I-A</option><option>I-B</option><option>II-A</option><option>II-B</option><option>II-C</option>
+                                    <option>III-A</option><option>III-B</option><option>III-C</option><option>IV-A</option><option>IV-B</option><option>IV-C</option>
+                                    <option>V-A</option><option>V-B</option><option>V-C</option><option>V-D</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ekap_building_class_application">Başvuru Tarihindeki Yapı Sınıfı</label>
+                                <select id="ekap_building_class_application" name="building_class_application_date" class="form-control">
+                                    <option value="">Seçiniz</option>
+                                    <option>I-A</option><option>I-B</option><option>II-A</option><option>II-B</option><option>II-C</option>
+                                    <option>III-A</option><option>III-B</option><option>IV-A</option><option>IV-B</option><option>IV-C</option>
+                                    <option>V-A</option><option>V-B</option><option>V-C</option><option>V-D</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Yapı Yaklaşık Birim Maliyetleri Tarih Opsiyonu:</label>
+                                <select id="kat_arsa_teblig_sinir_tarih_opsiyonu" name="kat_arsa_teblig_sinir_tarih_opsiyonu" class="form-control">
+                                    <option value="yayim">Tebliğ yayımlanma tarihi esas alınsın.</option>
+                                    <option value="gecerlilik">Tebliğde belirtilen geçerlilik süresi esas alınsın.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="take_85_percent" name="take_85_percent">
+                            <label class="form-check-label" for="take_85_percent">Belge tutarının %85'i alınsın</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="green_building" name="green_building">
+                            <label class="form-check-label" for="green_building">Yeşil Bina Sertifikası</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="joint_venture" name="joint_venture">
+                            <label class="form-check-label" for="joint_venture">Ortak Girişim</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" id="venture_ratio" name="venture_ratio" class="form-control" min="0" max="100" step="1" placeholder="Ortak Girişim Oranı (%)" style="display:none;">
+                    </div>
+                </div>
+                <!-- EKAP Sanayi Yapısı Alanları -->
+                <div class="form-group mt-3">
+                    <label>Sanayi Yapısı mı?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ekap_is_industrial" id="ekap_is_industrial_no" value="Hayır" checked>
+                        <label class="form-check-label" for="ekap_is_industrial_no">Hayır</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ekap_is_industrial" id="ekap_is_industrial_yes" value="Evet">
+                        <label class="form-check-label" for="ekap_is_industrial_yes">Evet</label>
+                    </div>
+                </div>
+                <div id="ekap-industrial-section" style="display:none;">
+                    <div class="form-group">
+                        <label>Sanayi Yapısı Tipi</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="ekap_industrial_type" id="ekap_industrial_type1" value="İş deneyimine tabi sanayi yapısı" checked>
+                            <label class="form-check-label" for="ekap_industrial_type1">İş deneyimine tabi sanayi yapısı</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="ekap_industrial_type" id="ekap_industrial_type2" value="İş deneyimine tabi olmayan sanayi yapısı">
+                            <label class="form-check-label" for="ekap_industrial_type2">İş deneyimine tabi olmayan sanayi yapısı</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Yıl Kategorisi</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="ekap_year_category" id="ekap_year_category1" value="2019 Öncesi" checked>
+                            <label class="form-check-label" for="ekap_year_category1">2019 Öncesi</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="ekap_year_category" id="ekap_year_category2" value="2019 Sonrası">
+                            <label class="form-check-label" for="ekap_year_category2">2019 Sonrası</label>
+                        </div>
+                    </div>
+                    <div id="ekap-industrial-2019-oncesi" style="display:none;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ekap_percentage_selected" name="ekap_percentage_selected">
+                            <label class="form-check-label" for="ekap_percentage_selected">Belge Tutarı %20'si</label>
+                        </div>
+                    </div>
+                    <div id="ekap-industrial-2019-sonrasi" style="display:none;">
+                        <div class="form-group">
+                            <label for="ekap_approval_date">Ruhsat Onay Tarihi</label>
+                            <input type="date" id="ekap_approval_date" name="ekap_approval_date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="ekap_authority_group">Ruhsat Onay Tarihindeki Yetki Belge Grubu</label>
+                            <select id="ekap_authority_group" name="ekap_authority_group" class="form-control">
+                                <option value="">Seçiniz</option>
+                                <option>A</option><option>B</option><option>B1</option><option>C</option><option>C1</option><option>D</option><option>D1</option><option>E</option><option>E1</option><option>F</option><option>F1</option><option>G</option><option>G1</option><option>H</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Yapı Yaklaşık Birim Maliyetleri Tarih Opsiyonu:</label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ekap_teblig_sinir_tarih_opsiyonu" id="ekap_teblig1" value="yayim" checked>
+                                <label class="form-check-label" for="ekap_teblig1">Tebliğ yayımlanma tarihi esas alınsın.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ekap_teblig_sinir_tarih_opsiyonu" id="ekap_teblig2" value="gecerlilik">
+                                <label class="form-check-label" for="ekap_teblig2">Tebliğde belirtilen geçerlilik süresi esas alınsın.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ekap-form-error" class="text-danger mb-2"></div>
+                <div class="form-group mt-4 d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-primary" id="ekap-calculate-btn"
+                        hx-post="/apps/calculate-ekap-experience"
+                        hx-target="#ekap-calculation-result"
+                        hx-include="#ekap-form">
+                        Hesapla
+                    </button>
+                    <button type="button" class="btn btn-secondary ml-2" id="kaydet-ve-devam-2">Kaydet ve devam et</button>
+                </div>
+            </form>
+            <div id="ekap-calculation-result" class="mt-4"></div>
+        </div>
+        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+            <form id="yapikullanma-form" hx-post="/apps/calculate-building-permit" hx-target="#yk-calculation-result" hx-swap="innerHTML">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="yk_application_date">Başvuru Tarihi</label>
+                            <input type="date" id="yk_application_date" name="application_date" class="form-control" readonly style="background-color: #f5f5f5; color: #888;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="yk_contract_date">Sözleşme Tarihi</label>
+                            <input type="date" id="yk_contract_date" name="contract_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="yk_acceptance_date">Geçici Kabul/İskan Tarihi</label>
+                            <input type="date" id="yk_acceptance_date" name="acceptance_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="yk_building_class">Sözleşme Tarihindeki Yapı Sınıfı</label>
+                            <select id="yk_building_class" name="building_class" class="form-control">
+                                <option value="">Seçiniz</option>
+                                <option>I-A</option><option>I-B</option><option>II-A</option><option>II-B</option><option>II-C</option>
+                                <option>III-A</option><option>III-B</option><option>III-C</option><option>IV-A</option><option>IV-B</option><option>IV-C</option>
+                                <option>V-A</option><option>V-B</option><option>V-C</option><option>V-D</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="yk_building_area">Yapı Alanı (m²)</label>
+                            <input type="number" id="yk_building_area" name="building_area" class="form-control" min="0" step="0.01">
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="yk_green_building" name="green_building">
+                            <label class="form-check-label" for="yk_green_building">Yeşil Bina Sertifikası Düzenlenmiş Yapı mı?</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Sanayi Yapısı mı?</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="is_industrial" id="yk_is_industrial_no" value="Hayır" checked>
+                                <label class="form-check-label" for="yk_is_industrial_no">Hayır</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="is_industrial" id="yk_is_industrial_yes" value="Evet">
+                                <label class="form-check-label" for="yk_is_industrial_yes">Evet</label>
+                            </div>
+                        </div>
+                        <div id="yk-industrial-section" style="display:none;">
+                            <div class="form-group">
+                                <label>Sanayi Yapısı Tipi</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="industrial_type" id="yk_industrial_type1" value="İş deneyimine tabi sanayi yapısı" checked>
+                                    <label class="form-check-label" for="yk_industrial_type1">İş deneyimine tabi sanayi yapısı</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="industrial_type" id="yk_industrial_type2" value="İş deneyimine tabi olmayan sanayi yapısı">
+                                    <label class="form-check-label" for="yk_industrial_type2">İş deneyimine tabi olmayan sanayi yapısı</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Yıl Kategorisi</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="year_category" id="yk_year_category1" value="2019 Öncesi" checked>
+                                    <label class="form-check-label" for="yk_year_category1">2019 Öncesi</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="year_category" id="yk_year_category2" value="2019 Sonrası">
+                                    <label class="form-check-label" for="yk_year_category2">2019 Sonrası</label>
+                                </div>
+                            </div>
+                            <div id="yk-industrial-2019-oncesi" style="display:none;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="yk_percentage_selected" name="percentage_selected">
+                                    <label class="form-check-label" for="yk_percentage_selected">Belge Tutarı %20'si</label>
+                                </div>
+                            </div>
+                            <div id="yk-industrial-2019-sonrasi" style="display:none;">
+                                <div class="form-group">
+                                    <label for="yk_approval_date">Ruhsat Onay Tarihi</label>
+                                    <input type="date" id="yk_approval_date" name="approval_date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="yk_authority_group">Ruhsat Onay Tarihindeki Yetki Belge Grubu</label>
+                                    <select id="yk_authority_group" name="authority_group" class="form-control">
+                                        <option value="">Seçiniz</option>
+                                        <option>A</option><option>B</option><option>B1</option><option>C</option><option>C1</option><option>D</option><option>D1</option><option>E</option><option>E1</option><option>F</option><option>F1</option><option>G</option><option>G1</option><option>H</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="yk_building_class_application">Başvuru Tarihindeki Yapı Sınıfı</label>
+                            <select id="yk_building_class_application" name="building_class_application_date" class="form-control">
+                                <option value="">Seçiniz</option>
+                                <option>I-A</option><option>I-B</option><option>II-A</option><option>II-B</option><option>II-C</option>
+                                <option>III-A</option><option>III-B</option><option>IV-A</option><option>IV-B</option><option>IV-C</option>
+                                <option>V-A</option><option>V-B</option><option>V-C</option><option>V-D</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="yk_completion_percentage">Tamamlanma Yüzdesi (%)</label>
+                            <input type="number" id="yk_completion_percentage" name="completion_percentage" class="form-control" min="0" max="100" step="0.1" value="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Yapı Yaklaşık Birim Maliyetleri Tarih Opsiyonu:</label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="teblig_sinir_tarih_opsiyonu" id="yk_teblig1" value="yayim" checked>
+                                <label class="form-check-label" for="yk_teblig1">Tebliğ yayımlanma tarihi esas alınsın.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="teblig_sinir_tarih_opsiyonu" id="yk_teblig2" value="gecerlilik">
+                                <label class="form-check-label" for="yk_teblig2">Tebliğde belirtilen geçerlilik süresi esas alınsın.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="yk-form-error" class="text-danger mb-2"></div>
+                <div class="form-group mt-4 d-flex align-items-center gap-2">
+                    <button type="submit" class="btn btn-primary" id="yk-calculate-btn">Hesapla</button>
+                    <button type="button" class="btn btn-success ml-2" id="yk-tabloya-ekle-btn">Tabloya Ekle</button>
+                    <button type="button" class="btn btn-secondary ml-2" id="yk-kaydet-ve-devam">Kaydet ve devam et</button>
+                </div>
+            </form>
+            <div id="yk-calculation-result" class="mt-4"></div>
+        </div>
+        <!-- İş Deneyimi Değerlendirme Sekmesi -->
+        <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+            <h5>Eklenen İş Deneyim Bilgileri</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" id="is-deneyimi-tablo" style="font-size:0.9em;">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Başvuru Tarihi</th>
+                            <th>İş Deneyim Tipi</th>
+                            <th>Sözleşme Tarihi/Diploma Tarihi</th>
+                            <th>Geçici Kabul/İskan Tarihi</th>
+                            <th>Son 5 yıl/Son 15 Yıl</th>
+                            <th>Belge Tutarı</th>
+                            <th>Güncel Belge Tutarı</th>
+                        </tr>
+                    </thead>
+                    <tbody id="is-deneyimi-tablo-body"></tbody>
+                </table>
+            </div>
+            <div class="mt-3">
+                <div class="form-group">
+                    <label>Yapı Yaklaşık Birim Maliyetleri Tarih Opsiyonu:</label><br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="is_deneyimi_teblig_sinir_tarih_opsiyonu" id="is_deneyimi_teblig1" value="yayim" checked>
+                        <label class="form-check-label" for="is_deneyimi_teblig1">Tebliğ yayımlanma tarihi esas alınsın.</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="is_deneyimi_teblig_sinir_tarih_opsiyonu" id="is_deneyimi_teblig2" value="gecerlilik">
+                        <label class="form-check-label" for="is_deneyimi_teblig2">Tebliğde belirtilen geçerlilik süresi esas alınsın.</label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="is-deneyimi-degerlendir-btn">
+                    İş Deneyimi Değerlendir
+                </button>
+            </div>
+            <div id="is-deneyimi-calculation-result" class="mt-4"></div>
+        </div>
+    </div>
+    <!-- Tablo: Tüm sekmelerin altında -->
+    <div class="mt-4">
+        <h5>Eklenen Belgeler</h5>
+        <table class="table table-bordered table-sm" id="belge-tablo" style="font-size:0.9em; max-width:1000px;">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Başvuru Tarihi</th>
+                    <th>İş Deneyim Tipi</th>
+                    <th>Sözleşme Tarihi/Diploma Tarihi</th>
+                    <th>Geçici Kabul/İskan Tarihi</th>
+                    <th>Son 5 yıl/Son 15 Yıl</th>
+                    <th>Belge Tutarı</th>
+                    <th>Güncel Belge Tutarı</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody id="belge-tablo-body"></tbody>
+        </table>
+    </div>
+</div>
+<script>
+function todayISO() {
+    const d = new Date();
+    let day = ('' + d.getDate()).padStart(2, '0');
+    let month = ('' + (d.getMonth() + 1)).padStart(2, '0');
+    let year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+function goToTab(tabNo) {
+    $('#demoTab a#tab' + tabNo + '-tab').tab('show');
+}
+function bindTabEventHandlers() {
+    // Eğer sayfa /category4 değilse localStorage'daki ilgili verileri sil
+    if (!window.location.pathname.endsWith('/category4')) {
+        localStorage.removeItem('mbhm_app_date');
+        localStorage.removeItem('mbhm_company_name');
+        localStorage.removeItem('belge_tablo');
+    }
+    // Eğer sayfa /category4 ise ve localStorage'da veri yoksa inputları ve tabloyu sıfırla
+    const appDate = localStorage.getItem('mbhm_app_date');
+    const companyName = localStorage.getItem('mbhm_company_name');
+    const applicationDateInput = document.getElementById('application_date');
+    const companyNameInput = document.getElementById('company_name');
+    const gradAppDate = document.getElementById('graduation_app_date');
+    const hiddenAppDate = document.getElementById('hidden_application_date');
+    if (window.location.pathname.endsWith('/category4')) {
+        if (!appDate) {
+            const today = todayISO();
+            if (applicationDateInput) applicationDateInput.value = today;
+            if (companyNameInput) companyNameInput.value = '';
+            if (gradAppDate) gradAppDate.value = today;
+            if (hiddenAppDate) hiddenAppDate.value = today;
+            localStorage.setItem('mbhm_app_date', today);
+            localStorage.setItem('mbhm_company_name', '');
+            localStorage.removeItem('belge_tablo');
+            renderTablo();
+        } else {
+            if (applicationDateInput) applicationDateInput.value = appDate;
+            if (companyNameInput) companyNameInput.value = companyName;
+            if (gradAppDate) gradAppDate.value = appDate;
+            if (hiddenAppDate) hiddenAppDate.value = appDate;
+        }
+    }
+    renderTablo();
+    // Event handler'ları tekrar bağla (önce kaldır, sonra ekle)
+    const saveAndNextBtn = document.getElementById('save-and-next');
+    if (saveAndNextBtn) {
+        saveAndNextBtn.onclick = null;
+        saveAndNextBtn.onclick = function() {
+            const appDate = document.getElementById('application_date').value.trim();
+            const companyName = document.getElementById('company_name').value.trim();
+            const errorDiv = document.getElementById('form-error');
+            if (!appDate) {
+                errorDiv.textContent = 'Başvuru tarihi zorunludur.';
+                return;
+            }
+            errorDiv.textContent = '';
+            localStorage.setItem('mbhm_app_date', appDate);
+            localStorage.setItem('mbhm_company_name', companyName);
+            document.getElementById('graduation_app_date').value = appDate;
+            goToTab(2);
+        };
+    }
+    const kaydetVeDevamBtn1 = document.getElementById('kaydet-ve-devam-1');
+    if (kaydetVeDevamBtn1) {
+        kaydetVeDevamBtn1.onclick = null;
+        kaydetVeDevamBtn1.onclick = function() { goToTab(3); };
+    }
+    const kaydetVeDevamBtn2 = document.getElementById('kaydet-ve-devam-2');
+    if (kaydetVeDevamBtn2) {
+        kaydetVeDevamBtn2.onclick = null;
+        kaydetVeDevamBtn2.onclick = function() { goToTab(4); };
+    }
+    const kaydetVeDevamBtn3 = document.getElementById('yk-kaydet-ve-devam');
+    if (kaydetVeDevamBtn3) {
+        kaydetVeDevamBtn3.onclick = null;
+        kaydetVeDevamBtn3.onclick = function() { goToTab(5); };
+    }
+    // EKAP sekmesinde dinamik alanlar
+    $('#joint_venture').off('change').on('change', function() {
+        if (this.checked) {
+            $('#venture_ratio').show();
+        } else {
+            $('#venture_ratio').hide().val('');
+        }
+    });
+    
+    // Kat/Arsa Karşılığı checkbox'ı
+    $('#kat_arsa_karsiligi').off('change').on('change', function() {
+        if (this.checked) {
+            $('#ekap-yapi-sinifi-section').show();
+        } else {
+            $('#ekap-yapi-sinifi-section').hide();
+            $('#ekap_building_class').val('');
+            $('#ekap_building_class_application').val('');
+        }
+    });
+
+    // EKAP Sanayi Yapısı mı? dinamik alanlar
+    $("input[name='ekap_is_industrial']").off('change').on('change', function() {
+        if ($(this).val() === 'Evet') {
+            $('#ekap-industrial-section').show();
+            if ($("input[name='ekap_year_category']:checked").val() === '2019 Öncesi') {
+                $('#ekap-industrial-2019-oncesi').show();
+                $('#ekap-industrial-2019-sonrasi').hide();
+                $('#ekap_percentage_selected').prop('checked', true);
+            } else if ($("input[name='ekap_year_category']:checked").val() === '2019 Sonrası') {
+                $('#ekap-industrial-2019-oncesi').hide();
+                $('#ekap-industrial-2019-sonrasi').show();
+            } else {
+                $('#ekap-industrial-2019-oncesi').hide();
+                $('#ekap-industrial-2019-sonrasi').hide();
+            }
+        } else {
+            $('#ekap-industrial-section').hide();
+            $('#ekap-industrial-2019-oncesi').hide();
+            $('#ekap-industrial-2019-sonrasi').hide();
+        }
+    });
+    $("input[name='ekap_year_category']").off('change').on('change', function() {
+        if ($(this).val() === '2019 Öncesi') {
+            $('#ekap-industrial-2019-oncesi').show();
+            $('#ekap-industrial-2019-sonrasi').hide();
+        } else if ($(this).val() === '2019 Sonrası') {
+            $('#ekap-industrial-2019-oncesi').hide();
+            $('#ekap-industrial-2019-sonrasi').show();
+        } else {
+            $('#ekap-industrial-2019-oncesi').hide();
+            $('#ekap-industrial-2019-sonrasi').hide();
+        }
+    });
+    // Yapı Kullanma İzin Belgesi Ekle sekmesinde dinamik alanlar
+    function bindYapiKullanmaDynamic() {
+        // Sanayi Yapısı mı?
+        $("input[name='is_industrial']").off('change').on('change', function() {
+            if ($(this).val() === 'Evet') {
+                $('#yk-industrial-section').show();
+            } else {
+                $('#yk-industrial-section').hide();
+                $("input[name='industrial_type']").prop('checked', false);
+                $("input[name='year_category']").prop('checked', false);
+                $('#yk-industrial-2019-oncesi').hide();
+                $('#yk-industrial-2019-sonrasi').hide();
+            }
+        });
+        // Yıl kategorisi
+        $("input[name='year_category']").off('change').on('change', function() {
+            if ($(this).val() === '2019 Öncesi') {
+                $('#yk-industrial-2019-oncesi').show();
+                $('#yk-industrial-2019-sonrasi').hide();
+            } else if ($(this).val() === '2019 Sonrası') {
+                $('#yk-industrial-2019-oncesi').hide();
+                $('#yk-industrial-2019-sonrasi').show();
+            } else {
+                $('#yk-industrial-2019-oncesi').hide();
+                $('#yk-industrial-2019-sonrasi').hide();
+            }
+        });
+    }
+    bindYapiKullanmaDynamic();
+}
+window.addEventListener('DOMContentLoaded', bindTabEventHandlers);
+document.body.addEventListener('htmx:afterSwap', bindTabEventHandlers);
+let sonHesaplananTutar = null;
+let sonMezuniyetTarihi = null;
+
+// Mezuniyet sekmesinde hesaplama sonrası tabloya ekle butonu göster
+function showTabloyaEkleBtn() {
+    if (!document.getElementById('tabloya-ekle-btn')) {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-success ml-2';
+        btn.id = 'tabloya-ekle-btn';
+        btn.textContent = 'Tabloya Ekle';
+        btn.onclick = tabloyaEkle;
+        document.querySelector('#calculation-result .alert-success').after(btn);
+    }
+}
+
+// HTMX ile hesaplama sonucu geldiğinde butonu göster
+document.body.addEventListener('htmx:afterSwap', function(evt) {
+    if (evt.target.id === 'calculation-result') {
+        // Hesaplama başarılıysa (alert-success varsa)
+        if (document.querySelector('#calculation-result .alert-success')) {
+            // Son hesaplanan tutarı ve mezuniyet tarihini al
+            const successDiv = document.querySelector('#calculation-result .alert-success');
+            const tutarText = successDiv.textContent.match(/Hesaplanan Tutar:\s*([^T]+)TL/);
+            sonHesaplananTutar = tutarText ? tutarText[1].trim() + ' TL' : '';
+            sonMezuniyetTarihi = document.getElementById('graduation_date').value;
+            console.log('DEBUG: Captured mezuniyet tutar:', sonHesaplananTutar);
+            showTabloyaEkleBtn();
+        }
+    }
+});
+
+// Tabloya ekle fonksiyonu
+function tabloyaEkle() {
+    // localStorage'dan başvuru tarihi ve ünvanı al
+    const appDate = localStorage.getItem('mbhm_app_date') || '';
+    // Mezuniyet tarihi ve tutar
+    const mezuniyetTarihi = sonMezuniyetTarihi || '';
+    const guncelTutar = sonHesaplananTutar || '';
+    // Tablo verilerini localStorage'dan al
+    let belgeler = JSON.parse(localStorage.getItem('belge_tablo')) || [];
+    // Eğer tabloda İş Deneyim Tipi 'Mezuniyet belgesi' olan kayıt varsa ekleme ve hata göster
+    if (belgeler.some(b => b.deneyim_tipi === 'Mezuniyet Belgesi')) {
+        showTabloError('Tabloda zaten bir Mezuniyet Belgesi kaydı var. İkinci bir mezuniyet belgesi eklenemez.');
+        return;
+    }
+    belgeler.push({
+        basvuru_tarihi: appDate,
+        deneyim_tipi: 'Mezuniyet Belgesi',
+        mezuniyet_tarihi: mezuniyetTarihi,
+        gecici_kabul: '',
+        son_yil: '',
+        belge_tutari: '',
+        guncel_tutar: guncelTutar // formatCurrency değil, doğrudan string
+    });
+    localStorage.setItem('belge_tablo', JSON.stringify(belgeler));
+    renderTablo();
+    // Butonu kaldır
+    const btn = document.getElementById('tabloya-ekle-btn');
+    if (btn) btn.remove();
+    clearTabloError();
+    
+    // İş Deneyimi Değerlendirme hesaplama sonucunu temizle
+    const isDeneyimiResult = document.getElementById('is-deneyimi-calculation-result');
+    if (isDeneyimiResult) {
+        isDeneyimiResult.innerHTML = '';
+    }
+}
+
+// Tabloyu render et
+function renderTablo() {
+    const tbody = document.getElementById('belge-tablo-body');
+    const isDeneyimiTbody = document.getElementById('is-deneyimi-tablo-body');
+    tbody.innerHTML = '';
+    if (isDeneyimiTbody) isDeneyimiTbody.innerHTML = '';
+    
+    // İş Deneyimi Değerlendirme hesaplama sonucunu temizle
+    const isDeneyimiResult = document.getElementById('is-deneyimi-calculation-result');
+    if (isDeneyimiResult) {
+        isDeneyimiResult.innerHTML = '';
+    }
+    
+    let belgeler = JSON.parse(localStorage.getItem('belge_tablo')) || [];
+    belgeler.forEach((b, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td>${b.basvuru_tarihi}</td>
+            <td>${b.deneyim_tipi}</td>
+            <td>${b.mezuniyet_tarihi}</td>
+            <td>${b.gecici_kabul}</td>
+            <td>${b.son_yil}</td>
+            <td>${b.belge_tutari}</td>
+            <td>${b.guncel_tutar}</td>
+            <td><button class='btn btn-danger btn-sm' onclick='deleteRow(${idx})'>Sil</button></td>
+        `;
+        tbody.appendChild(tr);
+        
+        // İş Deneyimi Değerlendirme tablosu için (silme butonu olmadan)
+        if (isDeneyimiTbody) {
+            const tr2 = document.createElement('tr');
+            tr2.innerHTML = `
+                <td>${idx + 1}</td>
+                <td>${b.basvuru_tarihi}</td>
+                <td>${b.deneyim_tipi}</td>
+                <td>${b.mezuniyet_tarihi}</td>
+                <td>${b.gecici_kabul}</td>
+                <td>${b.son_yil}</td>
+                <td>${b.belge_tutari}</td>
+                <td>${b.guncel_tutar}</td>
+            `;
+            isDeneyimiTbody.appendChild(tr2);
+        }
+    });
+    
+    console.log('DEBUG: renderTablo called, belgeler count:', belgeler.length);
+    belgeler.forEach((b, idx) => {
+        console.log(`DEBUG: Belge ${idx + 1}:`, b);
+    });
+}
+// Satır silme fonksiyonu
+function deleteRow(idx) {
+    let belgeler = JSON.parse(localStorage.getItem('belge_tablo')) || [];
+    belgeler.splice(idx, 1);
+    localStorage.setItem('belge_tablo', JSON.stringify(belgeler));
+    renderTablo();
+}
+// Sayfa yüklendiğinde tabloyu göster
+window.addEventListener('DOMContentLoaded', renderTablo);
+
+// Tablo hata mesajı gösterme
+function showTabloError(msg) {
+    let err = document.getElementById('tablo-error');
+    if (!err) {
+        err = document.createElement('div');
+        err.id = 'tablo-error';
+        err.className = 'alert alert-danger mt-2';
+        document.getElementById('calculation-result').appendChild(err);
+    }
+    err.textContent = msg;
+}
+function clearTabloError() {
+    const err = document.getElementById('tablo-error');
+    if (err) err.remove();
+}
+
+// EKAP Hesapla ve Kaydet/Devam butonları
+function validateEkapForm() {
+    let missing = [];
+    if (!$('#contract_date').val()) missing.push('Sözleşme Tarihi');
+    if (!$('#acceptance_date').val()) missing.push('Geçici Kabul/İskan Tarihi');
+    if (!$('#initial_amount').val()) missing.push('İlk Sözleşme Bedeli');
+    if (!$('#document_amount').val()) missing.push('Belge Tutarı');
+    if ($('#kat_arsa_karsiligi').is(':checked')) {
+        if (!$('#ekap_building_class').val()) missing.push('Sözleşme Tarihindeki Yapı Sınıfı');
+        if (!$('#ekap_building_class_application').val()) missing.push('Başvuru Tarihindeki Yapı Sınıfı');
+    }
+    if ($("input[name='ekap_is_industrial']:checked").val() === 'Evet') {
+        if (!$("input[name='ekap_industrial_type']:checked").val()) missing.push('Sanayi Yapısı Tipi');
+        if (!$("input[name='ekap_year_category']:checked").val()) missing.push('Yıl Kategorisi');
+        if ($("input[name='ekap_year_category']:checked").val() === '2019 Sonrası') {
+            if (!$('#ekap_approval_date').val()) missing.push('Ruhsat Onay Tarihi');
+            if (!$('#ekap_authority_group').val()) missing.push('Yetki Belge Grubu');
+            if (!$("input[name='ekap_teblig_sinir_tarih_opsiyonu']:checked").val()) missing.push('Birim Maliyet Tarih Opsiyonu');
+        }
+    }
+    // Ortak Girişim kontrolü
+    if ($('#joint_venture').is(':checked')) {
+        const ratio = $('#venture_ratio').val();
+        if (!ratio) missing.push('Ortak Girişim Oranı zorunlu');
+        else if (isNaN(ratio) || Number(ratio) < 0 || Number(ratio) > 100) missing.push('Ortak Girişim Oranı 0-100 arasında olmalı');
+    }
+    // Tarih kontrolleri
+    const appDate = $('#ekap_app_date').val();
+    const contractDate = $('#contract_date').val();
+    const acceptanceDate = $('#acceptance_date').val();
+    const approvalDate = $('#ekap_approval_date').val();
+    function parseDate(str) { return str ? new Date(str) : null; }
+    const dApp = parseDate(appDate), dContract = parseDate(contractDate), dAccept = parseDate(acceptanceDate), dApproval = parseDate(approvalDate);
+    if (dApp && dAccept && dContract) {
+        if (!(dApp >= dAccept && dAccept >= dContract)) missing.push('Başvuru Tarihi ≥ Geçici Kabul/İskan Tarihi ≥ Sözleşme Tarihi olmalı');
+    }
+    if ($("input[name='ekap_is_industrial']:checked").val() === 'Evet' && $("input[name='ekap_year_category']:checked").val() === '2019 Sonrası') {
+        if (dAccept && dApproval && dContract) {
+            if (!(dAccept >= dApproval && dApproval >= dContract)) missing.push('Geçici Kabul/İskan Tarihi ≥ Ruhsat Onay Tarihi ≥ Sözleşme Tarihi olmalı');
+        }
+    }
+    if (missing.length > 0) {
+        $('#ekap-form-error').html('Lütfen eksik alanları düzeltin:<br>' + missing.join('<br>'));
+        return false;
+    } else {
+        $('#ekap-form-error').html('');
+        return true;
+    }
+}
+
+$('#ekap-calculate-btn').off('click').on('click', function() {
+    if (!validateEkapForm()) return;
+});
+
+// EKAP Tabloya Ekle ve Kaydet/Devam
+$(document).on('click', '#ekap-tabloya-ekle-btn', function() {
+    const appDate = localStorage.getItem('mbhm_app_date') || '';
+    const contractDate = $('#contract_date').val();
+    const acceptanceDate = $('#acceptance_date').val();
+    const documentAmount = $('#document_amount').val();
+    // Hesaplama sonucundan JSON parametrelerini al
+    const paramsCollapse = document.querySelector('#ekapParamsCollapse pre code');
+    let guncelTutar = '';
+    let sonYil = '';
+    if (paramsCollapse) {
+        try {
+            const params = JSON.parse(paramsCollapse.textContent);
+            guncelTutar = params.guncel_belge_tutari ? parseFloat(params.guncel_belge_tutari).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TL' : '';
+            if (params.son_5_15_yil === '5_yil') {
+                sonYil = '5 Yıl';
+            } else if (params.son_5_15_yil === '15_yil') {
+                sonYil = '15 Yıl';
+            } else {
+                sonYil = '';
+            }
+        } catch (e) {
+            guncelTutar = '';
+            sonYil = '';
+        }
+    }
+    if (!guncelTutar) {
+        alert('Lütfen önce hesaplama yapın.');
+        return;
+    }
+    let belgeler = JSON.parse(localStorage.getItem('belge_tablo')) || [];
+    belgeler.push({
+        basvuru_tarihi: appDate,
+        deneyim_tipi: 'EKAP İş Deneyim Belgesi',
+        mezuniyet_tarihi: contractDate,
+        gecici_kabul: acceptanceDate,
+        son_yil: sonYil,
+        belge_tutari: documentAmount ? parseFloat(documentAmount).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TL' : '',
+        guncel_tutar: guncelTutar
+    });
+    localStorage.setItem('belge_tablo', JSON.stringify(belgeler));
+    renderTablo();
+    $('#ekap-calculation-result').html('<div class="alert alert-success">Tabloya eklendi.</div>');
+    
+    // İş Deneyimi Değerlendirme hesaplama sonucunu temizle
+    const isDeneyimiResult = document.getElementById('is-deneyimi-calculation-result');
+    if (isDeneyimiResult) {
+        isDeneyimiResult.innerHTML = '';
+    }
+});
+
+// Yapı Kullanma İzin Belgesi Hesapla butonu
+const ykCalculateBtn = document.getElementById('yk-calculate-btn');
+if (ykCalculateBtn) {
+    ykCalculateBtn.onclick = null;
+    ykCalculateBtn.onclick = function() {
+        if (!validateYapiKullanmaForm()) return;
+    };
+}
+
+// İş Deneyimi Değerlendir butonu
+const isDeneyimiDegerlendirBtn = document.getElementById('is-deneyimi-degerlendir-btn');
+if (isDeneyimiDegerlendirBtn) {
+    isDeneyimiDegerlendirBtn.onclick = null;
+    isDeneyimiDegerlendirBtn.onclick = handleIsDeneyimiDegerlendir;
+}
+
+// Yapı Kullanma İzin Belgesi Tabloya Ekle butonu
+$(document).on('click', '#yk-tabloya-ekle-btn', function() {
+    const appDate = localStorage.getItem('mbhm_app_date') || '';
+    const acceptanceDate = $('#yk_acceptance_date').val();
+    
+    // Hesaplama sonucundan verileri al
+    const resultDiv = document.querySelector('#yk-calculation-result .alert-success');
+    let baseAmount = '';
+    let updatedAmount = '';
+    let son5_15Yil = '';
+    
+    if (resultDiv) {
+        // JSON parametrelerini al
+        const paramsCollapse = document.querySelector('#paramsCollapse pre code');
+        if (paramsCollapse) {
+            try {
+                const params = JSON.parse(paramsCollapse.textContent);
+                baseAmount = params.base_amount ? parseFloat(params.base_amount).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TL' : '';
+                updatedAmount = params.updated_contractor_amount ? parseFloat(params.updated_contractor_amount).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TL' : '';
+                
+                if (params.son_5_15_yil === '5_yil') {
+                    son5_15Yil = '5 Yıl';
+                } else if (params.son_5_15_yil === '15_yil') {
+                    son5_15Yil = '15 Yıl';
+                }
+            } catch (e) {
+                console.error('JSON parse hatası:', e);
+            }
+        }
+    }
+    
+    // Eğer veri alınamadıysa, hata göster
+    if (!baseAmount || !updatedAmount || !son5_15Yil) {
+        alert('Lütfen önce hesaplama yapın.');
+        return;
+    }
+    
+    let belgeler = JSON.parse(localStorage.getItem('belge_tablo')) || [];
+    belgeler.push({
+        basvuru_tarihi: appDate,
+        deneyim_tipi: 'Yapı Kullanma İzin Belgesi',
+        mezuniyet_tarihi: $('#yk_contract_date').val(),
+        gecici_kabul: acceptanceDate,
+        son_yil: son5_15Yil,
+        belge_tutari: baseAmount,
+        guncel_tutar: updatedAmount
+    });
+    localStorage.setItem('belge_tablo', JSON.stringify(belgeler));
+    renderTablo();
+    $('#yk-calculation-result').html('<div class="alert alert-success">Tabloya eklendi.</div>');
+    
+    // İş Deneyimi Değerlendirme hesaplama sonucunu temizle
+    const isDeneyimiResult = document.getElementById('is-deneyimi-calculation-result');
+    if (isDeneyimiResult) {
+        isDeneyimiResult.innerHTML = '';
+    }
+});
+
+window.addEventListener('DOMContentLoaded', function() {
+    // Başvuru tarihi inputunu doldur
+    var appDate = localStorage.getItem('mbhm_app_date');
+    if (appDate && document.getElementById('yk_application_date')) {
+        document.getElementById('yk_application_date').value = appDate;
+    }
+});
+
+function updateYapiKullanmaBasvuruTarihi() {
+    var appDate = localStorage.getItem('mbhm_app_date');
+    if (appDate && document.getElementById('yk_application_date')) {
+        document.getElementById('yk_application_date').value = appDate;
+    }
+}
+window.addEventListener('DOMContentLoaded', updateYapiKullanmaBasvuruTarihi);
+document.body.addEventListener('htmx:afterSwap', updateYapiKullanmaBasvuruTarihi);
+// Eğer sekme geçişlerinde de güncellenmesi gerekiyorsa:
+$(document).on('shown.bs.tab', function(e) {
+    updateYapiKullanmaBasvuruTarihi();
+});
+
+function updateEkapBasvuruTarihi() {
+    var appDate = localStorage.getItem('mbhm_app_date');
+    if (appDate && document.getElementById('ekap_app_date')) {
+        document.getElementById('ekap_app_date').value = appDate;
+    }
+}
+window.addEventListener('DOMContentLoaded', updateEkapBasvuruTarihi);
+document.body.addEventListener('htmx:afterSwap', updateEkapBasvuruTarihi);
+$(document).on('shown.bs.tab', function(e) {
+    updateEkapBasvuruTarihi();
+    updateYapiKullanmaBasvuruTarihi && updateYapiKullanmaBasvuruTarihi();
+});
+
+function updateAllBasvuruTarihiInputs() {
+    var appDate = localStorage.getItem('mbhm_app_date');
+    if (appDate) {
+        var ekapInput = document.getElementById('ekap_app_date');
+        if (ekapInput) ekapInput.value = appDate;
+        var ykInput = document.getElementById('yk_application_date');
+        if (ykInput) ykInput.value = appDate;
+        var graduationInput = document.getElementById('graduation_app_date');
+        if (graduationInput) graduationInput.value = appDate;
+        var hiddenInput = document.getElementById('hidden_application_date');
+        if (hiddenInput) hiddenInput.value = appDate;
+    }
+}
+
+// Başvuru tarihi değiştiğinde tüm inputları güncelle
+function updateBasvuruTarihiOnChange() {
+    updateAllBasvuruTarihiInputs();
+    // Form verilerinin güncellenmesi için kısa bir gecikme
+    setTimeout(function() {
+        // HTMX formlarını yeniden yükle
+        var graduationForm = document.getElementById('graduation-form');
+        if (graduationForm) {
+            htmx.process(graduationForm);
+        }
+        var yapiKullanmaForm = document.getElementById('yapikullanma-form');
+        if (yapiKullanmaForm) {
+            htmx.process(yapiKullanmaForm);
+        }
+    }, 100);
+}
+
+// Başvuru tarihi inputunu dinle
+document.addEventListener('DOMContentLoaded', function() {
+    var appDateInput = document.getElementById('application_date');
+    if (appDateInput) {
+        appDateInput.addEventListener('change', updateBasvuruTarihiOnChange);
+    }
+});
+
+window.addEventListener('DOMContentLoaded', updateAllBasvuruTarihiInputs);
+document.body.addEventListener('htmx:afterSwap', updateAllBasvuruTarihiInputs);
+$(document).on('shown.bs.tab', function(e) {
+    updateAllBasvuruTarihiInputs();
+});
+
+// 2019 Öncesi seçiliyse %20 checkbox'ı default seçili gelsin
+$(document).on('change', "input[name='ekap_year_category']", function() {
+    if ($(this).val() === '2019 Öncesi') {
+        $('#ekap_percentage_selected').prop('checked', true);
+    }
+});
+
+function updateEkapIndustrialSections() {
+    const isIndustrial = $("input[name='ekap_is_industrial']:checked").val() === 'Evet';
+    const yearCategory = $("input[name='ekap_year_category']:checked").val();
+    if (isIndustrial) {
+        $('#ekap-industrial-section').show();
+        if (yearCategory === '2019 Öncesi') {
+            $('#ekap-industrial-2019-oncesi').show();
+            $('#ekap-industrial-2019-sonrasi').hide();
+            $('#ekap_percentage_selected').prop('checked', true);
+        } else if (yearCategory === '2019 Sonrası') {
+            $('#ekap-industrial-2019-oncesi').hide();
+            $('#ekap-industrial-2019-sonrasi').show();
+        } else {
+            $('#ekap-industrial-2019-oncesi').hide();
+            $('#ekap-industrial-2019-sonrasi').hide();
+        }
+    } else {
+        $('#ekap-industrial-section').hide();
+        $('#ekap-industrial-2019-oncesi').hide();
+        $('#ekap-industrial-2019-sonrasi').hide();
+    }
+}
+$(document).on('change', "input[name='ekap_is_industrial']", updateEkapIndustrialSections);
+$(document).on('change', "input[name='ekap_year_category']", updateEkapIndustrialSections);
+
+// İş Deneyimi Değerlendir butonu için manuel handler
+function handleIsDeneyimiDegerlendir() {
+    const belgeler = JSON.parse(localStorage.getItem('belge_tablo') || '[]');
+    const application_date = localStorage.getItem('mbhm_app_date');
+    const tarih_opsiyonu = document.querySelector('input[name="is_deneyimi_teblig_sinir_tarih_opsiyonu"]:checked').value;
+    
+    if (belgeler.length === 0) {
+        alert('Tabloda iş deneyim belgesi bulunamadı.');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('belgeler', JSON.stringify(belgeler));
+    formData.append('application_date', application_date);
+    formData.append('is_deneyimi_teblig_sinir_tarih_opsiyonu', tarih_opsiyonu);
+    
+    fetch('/apps/calculate-is-deneyimi-degerlendirme', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(html => {
+        document.getElementById('is-deneyimi-calculation-result').innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('is-deneyimi-calculation-result').innerHTML = '<div class="alert alert-danger">Hesaplama sırasında hata oluştu.</div>';
+    });
+}
+</script>
+{% endblock %} 
